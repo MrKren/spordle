@@ -1,7 +1,7 @@
 import React from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
+import Selector from "../Components/Selector";
 
 const theme = createTheme({
   palette: {
@@ -21,7 +21,7 @@ function App() {
         sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
       >
         <h1>Spotify Heardle</h1>
-        <Button variant="contained">Test</Button>
+        <Selector />
       </Container>
     </ThemeProvider>
   );
