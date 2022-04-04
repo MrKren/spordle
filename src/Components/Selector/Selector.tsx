@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, VFC } from "react";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import { useEffect } from "react";
+import { Token, SelectorProps } from "../types";
 
-const Selector = () => {
+const Selector: VFC<SelectorProps> = ({ token }) => {
   const [playlistId, setPlaylistId] = useState("" as string);
   const apiUrl = "https://api.spotify.com/v1/playlists/";
 

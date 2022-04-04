@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Container from "@mui/material/Container";
 import Selector from "../Components/Selector";
+import { Token } from "../Components/types";
 
 const theme = createTheme({
   palette: {
@@ -23,7 +24,7 @@ authUrl += `&redirect_uri=${redirectUri}`;
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false as boolean);
-  const [token, setToken] = useState(null as null | string);
+  const [token, setToken] = useState(null as Token);
   const currentUrl = window.location.href;
 
   useEffect(() => {
@@ -32,9 +33,10 @@ function App() {
       index
     )}`;
     const tokenSearch = new URLSearchParams(searchUrl);
-    if (tokenSearch.get("access_token")) {
+    const tokenValue = tokenSearch.get("access_token");
+    if (tokenValue) {
       setAuthenticated(true);
-      setToken(tokenSearch.get("access_token"));
+      setToken(tokenValue);
     }
   }, [currentUrl]);
 
@@ -45,7 +47,7 @@ function App() {
       >
         <h1>Spotify Heardle</h1>
         {!authenticated && <a href={authUrl}>Authenticate</a>}
-        {authenticated && <Selector />}
+        {authenticated && <Selector token={token} />}
       </Container>
     </ThemeProvider>
   );
