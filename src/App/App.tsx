@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Container from "@mui/material/Container";
 import Selector from "../Components/Selector";
-import { Token } from "../Components/types";
+import { Playlist, Token } from "../Components/types";
 
 const theme = createTheme({
   palette: {
@@ -23,6 +23,7 @@ authUrl += `&client_id=${clientId}`;
 authUrl += `&redirect_uri=${redirectUri}`;
 
 function App() {
+  //Authentication
   const [authenticated, setAuthenticated] = useState(false as boolean);
   const [token, setToken] = useState(null as Token);
   const currentUrl = window.location.href;
@@ -40,6 +41,8 @@ function App() {
     }
   }, [currentUrl]);
 
+  //Main app logic
+  const [playlist, setPlaylist] = useState({} as Playlist);
   return (
     <ThemeProvider theme={theme}>
       <Container
@@ -47,7 +50,7 @@ function App() {
       >
         <h1>Spotify Heardle</h1>
         {!authenticated && <a href={authUrl}>Authenticate</a>}
-        {authenticated && <Selector token={token} />}
+        {authenticated && <Selector token={token} setPlaylist={setPlaylist} />}
       </Container>
     </ThemeProvider>
   );
