@@ -8,12 +8,19 @@ import {
 } from "@mui/material";
 import { GuessPanelProps } from "../types";
 
-const GuessPanel: VFC<GuessPanelProps> = ({ tracklist, song }) => {
+const GuessPanel: VFC<GuessPanelProps> = ({
+  tracklist,
+  song,
+  success,
+  setSuccess,
+  setGuessNum,
+}) => {
   const [guess, setGuess] = useState(("" as string) || null);
   const [guessNumber, setGuessNumber] = useState(-1);
   const [guessedList, setGuessedList] = useState(
     Array(6).fill(null) as string[]
   );
+  const randomSong = song.song;
 
   useEffect(() => {
     if (guess !== "" && guess !== null) {
@@ -22,12 +29,15 @@ const GuessPanel: VFC<GuessPanelProps> = ({ tracklist, song }) => {
       const newGuessedList = guessedList.slice();
       newGuessedList[guessNumber + 1] = guess;
       setGuessedList(newGuessedList);
+      if (guess === randomSong) {
+        setSuccess(true);
+        setGuessNum(guessNumber + 1);
+      }
     }
   }, [guess]);
 
   if (Object.keys(tracklist).length > 0) {
     const guessList = tracklist.map((track) => track.song);
-    const randomSong = song.song;
 
     return (
       <Box
@@ -52,7 +62,7 @@ const GuessPanel: VFC<GuessPanelProps> = ({ tracklist, song }) => {
             </Paper>
           </Box>
         ))}
-        {guessNumber < 5 && (
+        {guessNumber < 5 && !success && (
           <Autocomplete
             key={guess}
             fullWidth

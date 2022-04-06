@@ -21,6 +21,9 @@ export type SelectorProps = {
 export type GuessPanelProps = {
   tracklist: Tracklist;
   song: Song;
+  success: boolean;
+  setSuccess: Dispatch<SetStateAction<boolean>>;
+  setGuessNum: Dispatch<SetStateAction<number>>;
 };
 
 // Playlist Object

@@ -26,7 +26,7 @@ authUrl += `&redirect_uri=${redirectUri}`;
 
 function App() {
   //Authentication
-  const [authenticated, setAuthenticated] = useState(false as boolean);
+  const [authenticated, setAuthenticated] = useState(false);
   const [token, setToken] = useState(null as Token);
   const currentUrl = window.location.href;
 
@@ -47,6 +47,8 @@ function App() {
   const [playlist, setPlaylist] = useState({} as Playlist);
   const [tracklist, setTracklist] = useState({} as Tracklist);
   const [song, setSong] = useState({} as Song);
+  const [success, setSuccess] = useState(false);
+  const [guessNum, setGuessNum] = useState(0);
   const playlistSet = Object.keys(playlist).length !== 0;
 
   useEffect(() => {
@@ -69,7 +71,7 @@ function App() {
       setSong(trackNames[rand]);
       setTracklist(trackNames as Tracklist);
     }
-  }, [playlist]);
+  }, [playlist, playlistSet]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -81,7 +83,13 @@ function App() {
         {!authenticated && <a href={authUrl}>Authenticate</a>}
         {authenticated && <Selector token={token} setPlaylist={setPlaylist} />}
         {authenticated && playlistSet && (
-          <GuessPanel tracklist={tracklist} song={song} />
+          <GuessPanel
+            tracklist={tracklist}
+            song={song}
+            success={success}
+            setSuccess={setSuccess}
+            setGuessNum={setGuessNum}
+          />
         )}
       </Container>
     </ThemeProvider>
