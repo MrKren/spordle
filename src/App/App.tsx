@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Container from "@mui/material/Container";
+import { Container } from "@mui/material";
 import Selector from "../Components/Selector";
 import { Playlist, Token, Tracklist } from "../Components/types";
 

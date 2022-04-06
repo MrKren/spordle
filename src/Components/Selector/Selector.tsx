@@ -1,10 +1,7 @@
 import React, { useEffect, useState, VFC } from "react";
-import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import { Playlist, SelectorProps } from "../types";
 import axios, { AxiosResponse } from "axios";
-import { FormHelperText } from "@mui/material";
+import { FormHelperText, Button, Box, TextField } from "@mui/material";
 
 const Selector: VFC<SelectorProps> = ({ token, setPlaylist }) => {
   const [textfieldValue, setTextfieldValue] = useState("" as string);
