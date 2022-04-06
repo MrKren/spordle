@@ -4,25 +4,28 @@ import {
   Box,
   TextField,
   createFilterOptions,
+  Paper,
 } from "@mui/material";
 import { GuessPanelProps } from "../types";
 
 const GuessPanel: VFC<GuessPanelProps> = ({ tracklist, song }) => {
   const [guess, setGuess] = useState(("" as string) || null);
   const [guessNumber, setGuessNumber] = useState(-1);
-  const [guessList, setGuessList] = useState(Array(6).fill(null) as string[]);
+  const [guessedList, setGuessedList] = useState(
+    Array(6).fill(null) as string[]
+  );
 
   useEffect(() => {
     if (guess !== "" && guess !== null) {
       setGuess("");
       setGuessNumber(guessNumber + 1);
-      const newGuessList = guessList.slice();
-      newGuessList[guessNumber + 1] = guess;
-      setGuessList(newGuessList);
+      const newGuessedList = guessedList.slice();
+      newGuessedList[guessNumber + 1] = guess;
+      setGuessedList(newGuessedList);
     }
   }, [guess]);
 
-  console.log(guessNumber, guessList);
+  console.log(guessNumber, guessedList);
   if (Object.keys(tracklist).length > 0) {
     const guessList = tracklist.map((track) => track.song);
     const randomSong = song.song;
@@ -36,6 +39,19 @@ const GuessPanel: VFC<GuessPanelProps> = ({ tracklist, song }) => {
           marginTop: "10px",
         }}
       >
+        {guessedList.map((val, index) => (
+          <Box key={index} sx={{ padding: "10px" }}>
+            <Paper
+              sx={{
+                padding: "10px 10px 0",
+                height: "30px",
+                color: randomSong === val ? "green" : "red",
+              }}
+            >
+              {val}
+            </Paper>
+          </Box>
+        ))}
         {guessNumber < 5 && (
           <Autocomplete
             key={guess}

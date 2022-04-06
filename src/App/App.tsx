@@ -8,7 +8,7 @@ import GuessPanel from "../Components/GuessPanel";
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#009688",
+      main: "#009608",
     },
     secondary: {
       main: "#7cb342",
