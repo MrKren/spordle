@@ -25,7 +25,6 @@ const GuessPanel: VFC<GuessPanelProps> = ({ tracklist, song }) => {
     }
   }, [guess]);
 
-  console.log(guessNumber, guessedList);
   if (Object.keys(tracklist).length > 0) {
     const guessList = tracklist.map((track) => track.song);
     const randomSong = song.song;
@@ -43,7 +42,8 @@ const GuessPanel: VFC<GuessPanelProps> = ({ tracklist, song }) => {
           <Box key={index} sx={{ padding: "10px" }}>
             <Paper
               sx={{
-                padding: "10px 10px 0",
+                textAlign: "center",
+                padding: "5px",
                 height: "30px",
                 color: randomSong === val ? "green" : "red",
               }}

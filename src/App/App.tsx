@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Container } from "@mui/material";
+import { Container, CssBaseline } from "@mui/material";
 import Selector from "../Components/Selector";
 import { Playlist, Song, Token, Tracklist } from "../Components/types";
 import GuessPanel from "../Components/GuessPanel";
 
 const theme = createTheme({
   palette: {
+    mode: "dark",
     primary: {
       main: "#009608",
     },
@@ -72,6 +73,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <Container
         sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
       >
