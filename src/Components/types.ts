@@ -1,11 +1,29 @@
 import { Dispatch, SetStateAction } from "react";
 
+// Misc
+
 export type Token = string | null;
+
+export type Song = {
+  song: string;
+  link: string;
+};
+
+export type Tracklist = Song[];
+
+// Props
 
 export type SelectorProps = {
   token: Token;
   setPlaylist: Dispatch<SetStateAction<Playlist>>;
 };
+
+export type GuessPanelProps = {
+  tracklist: Tracklist;
+  song: Song;
+};
+
+// Playlist Object
 
 export type Artists = {
   name: string;
@@ -28,8 +46,3 @@ export type Playlist = {
     items: Track[];
   };
 };
-
-export type Tracklist = {
-  song: string;
-  link: string;
-}[];
