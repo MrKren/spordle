@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Container from "@mui/material/Container";
+import { Container, CssBaseline } from "@mui/material";
 import Selector from "../Components/Selector";
-import { Playlist, Token } from "../Components/types";
+import { Playlist, Song, Token, Tracklist } from "../Components/types";
+import GuessPanel from "../Components/GuessPanel";
 
 const theme = createTheme({
   palette: {
+    mode: "dark",
     primary: {
-      main: "#009688",
+      main: "#009608",
     },
     secondary: {
       main: "#7cb342",
@@ -24,7 +26,7 @@ authUrl += `&redirect_uri=${redirectUri}`;
 
 function App() {
   //Authentication
-  const [authenticated, setAuthenticated] = useState(false as boolean);
+  const [authenticated, setAuthenticated] = useState(false);
   const [token, setToken] = useState(null as Token);
   const currentUrl = window.location.href;
 
@@ -43,19 +45,52 @@ function App() {
 
   //Main app logic
   const [playlist, setPlaylist] = useState({} as Playlist);
+  const [tracklist, setTracklist] = useState({} as Tracklist);
+  const [song, setSong] = useState({} as Song);
+  const [success, setSuccess] = useState(false);
+  const [guessNum, setGuessNum] = useState(0);
+  const playlistSet = Object.keys(playlist).length !== 0;
 
   useEffect(() => {
-    console.log(playlist);
-  }, [playlist]);
+    if (playlistSet) {
+      const tracks = playlist.tracks.items;
+      const trackNames = tracks.map((val) => {
+        const name = val.track.name;
+        const artists = val.track.artists.map((artist) => artist.name);
+        let artist = "";
+        for (let i = 0; i < artists.length; i++) {
+          artist += artists[i] + ", ";
+        }
+        artist = artist.slice(0, -2);
+        return {
+          song: `${artist} - ${name}`,
+          link: val.track.preview_url,
+        };
+      });
+      const rand = Math.floor(Math.random() * playlist.tracks.items.length);
+      setSong(trackNames[rand]);
+      setTracklist(trackNames as Tracklist);
+    }
+  }, [playlist, playlistSet]);
 
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <Container
         sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
       >
         <h1>Spotify Heardle</h1>
         {!authenticated && <a href={authUrl}>Authenticate</a>}
         {authenticated && <Selector token={token} setPlaylist={setPlaylist} />}
+        {authenticated && playlistSet && (
+          <GuessPanel
+            tracklist={tracklist}
+            song={song}
+            success={success}
+            setSuccess={setSuccess}
+            setGuessNum={setGuessNum}
+          />
+        )}
       </Container>
     </ThemeProvider>
   );
