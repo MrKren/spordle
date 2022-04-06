@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Container } from "@mui/material";
 import Selector from "../Components/Selector";
-import { Playlist, Token, Tracklist } from "../Components/types";
+import { Playlist, Song, Token, Tracklist } from "../Components/types";
+import GuessPanel from "../Components/GuessPanel";
 
 const theme = createTheme({
   palette: {
@@ -44,9 +45,11 @@ function App() {
   //Main app logic
   const [playlist, setPlaylist] = useState({} as Playlist);
   const [tracklist, setTracklist] = useState({} as Tracklist);
+  const [song, setSong] = useState({} as Song);
+  const playlistSet = Object.keys(playlist).length !== 0;
 
   useEffect(() => {
-    if (Object.keys(playlist).length !== 0) {
+    if (playlistSet) {
       const tracks = playlist.tracks.items;
       const trackNames = tracks.map((val) => {
         const name = val.track.name;
@@ -62,7 +65,8 @@ function App() {
         };
       });
       const rand = Math.floor(Math.random() * playlist.tracks.items.length);
-      setTracklist(trackNames);
+      setSong(trackNames[rand]);
+      setTracklist(trackNames as Tracklist);
     }
   }, [playlist]);
 
@@ -74,6 +78,9 @@ function App() {
         <h1>Spotify Heardle</h1>
         {!authenticated && <a href={authUrl}>Authenticate</a>}
         {authenticated && <Selector token={token} setPlaylist={setPlaylist} />}
+        {authenticated && playlistSet && (
+          <GuessPanel tracklist={tracklist} song={song} />
+        )}
       </Container>
     </ThemeProvider>
   );
