@@ -43,6 +43,11 @@ function App() {
 
   //Main app logic
   const [playlist, setPlaylist] = useState({} as Playlist);
+
+  useEffect(() => {
+    console.log(playlist);
+  }, [playlist]);
+
   return (
     <ThemeProvider theme={theme}>
       <Container

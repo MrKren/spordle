@@ -3,11 +3,15 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { Playlist, SelectorProps } from "../types";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
+import { FormHelperText } from "@mui/material";
 
 const Selector: VFC<SelectorProps> = ({ token, setPlaylist }) => {
   const [textfieldValue, setTextfieldValue] = useState("" as string);
   const [playlistId, setPlaylistId] = useState("" as string);
+  const [apiResponse, setApiResponse] = useState({
+    status: 200,
+  } as AxiosResponse);
   const apiUrl = "https://api.spotify.com/v1/playlists/";
 
   useEffect(() => {
@@ -28,24 +32,48 @@ const Selector: VFC<SelectorProps> = ({ token, setPlaylist }) => {
             "Content-Type": "application/json",
           },
         })
-        .then((value) => setPlaylist({ ...value.data } as Playlist));
+        .then((response) => {
+          setApiResponse(response);
+          setPlaylist({ ...response.data } as Playlist);
+        })
+        .catch((error) => {
+          setApiResponse(error.response);
+        });
     }
-  }, [playlistId, token]);
+  }, [playlistId, token, setPlaylist]);
+
+  const errorCode = () => {
+    if (apiResponse.status === 401) {
+      return "Session Expired";
+    }
+    if (apiResponse.status === 404) {
+      return "Playlist not found";
+    }
+  };
 
   return (
-    <Box sx={{ display: "flex", gap: "10px" }}>
-      <TextField
-        label="Playlist ID/Link"
-        onChange={(e) => setTextfieldValue(e.target.value)}
-        onKeyPress={(e) => {
-          if (e.key === "Enter") {
-            setPlaylistId(textfieldValue);
-          }
-        }}
-      />
-      <Button variant="contained" onClick={() => setPlaylistId(textfieldValue)}>
-        GO
-      </Button>
+    <Box>
+      <Box sx={{ display: "flex", gap: "10px" }}>
+        <TextField
+          error={apiResponse.status !== 200}
+          label="Playlist ID/Link"
+          onChange={(e) => setTextfieldValue(e.target.value)}
+          onKeyPress={(e) => {
+            if (e.key === "Enter") {
+              setPlaylistId(textfieldValue);
+            }
+          }}
+        />
+        <Button
+          variant="contained"
+          onClick={() => setPlaylistId(textfieldValue)}
+        >
+          GO
+        </Button>
+      </Box>
+      <Box sx={{ marginLeft: "10px" }}>
+        <FormHelperText error>{errorCode()}</FormHelperText>
+      </Box>
     </Box>
   );
 };
