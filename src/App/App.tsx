@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Container from "@mui/material/Container";
 import Selector from "../Components/Selector";
-import { Playlist, Token } from "../Components/types";
+import { Playlist, Token, Tracklist } from "../Components/types";
 
 const theme = createTheme({
   palette: {
@@ -43,9 +43,27 @@ function App() {
 
   //Main app logic
   const [playlist, setPlaylist] = useState({} as Playlist);
+  const [tracklist, setTracklist] = useState({} as Tracklist);
 
   useEffect(() => {
-    console.log(playlist);
+    if (Object.keys(playlist).length !== 0) {
+      const tracks = playlist.tracks.items;
+      const trackNames = tracks.map((val) => {
+        const name = val.track.name;
+        const artists = val.track.artists.map((artist) => artist.name);
+        let artist = "";
+        for (let i = 0; i < artists.length; i++) {
+          artist += artists[i] + ", ";
+        }
+        artist = artist.slice(0, -2);
+        return {
+          song: `${artist} - ${name}`,
+          link: val.track.preview_url,
+        };
+      });
+      const rand = Math.floor(Math.random() * playlist.tracks.items.length);
+      setTracklist(trackNames);
+    }
   }, [playlist]);
 
   return (

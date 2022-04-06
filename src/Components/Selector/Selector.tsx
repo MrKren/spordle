@@ -25,7 +25,7 @@ const Selector: VFC<SelectorProps> = ({ token, setPlaylist }) => {
 
     // Request playlist data
     if (id.length > 0) {
-      const playlistObj = axios
+      axios
         .get(`${apiUrl}${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,

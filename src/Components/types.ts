@@ -28,3 +28,8 @@ export type Playlist = {
     items: Track[];
   };
 };
+
+export type Tracklist = {
+  song: string;
+  link: string;
+}[];
