@@ -4,6 +4,7 @@ import { Container, CssBaseline } from "@mui/material";
 import Selector from "../Components/Selector";
 import { Playlist, Song, Token, Tracklist } from "../Components/types";
 import GuessPanel from "../Components/GuessPanel";
+import AudioControls from "../Components/AudioControls";
 
 const theme = createTheme({
   palette: {
@@ -90,6 +91,9 @@ function App() {
             setSuccess={setSuccess}
             setGuessNum={setGuessNum}
           />
+        )}
+        {authenticated && playlistSet && (
+          <AudioControls song={song} guessNum={guessNum} />
         )}
       </Container>
     </ThemeProvider>
