@@ -26,6 +26,11 @@ export type GuessPanelProps = {
   setGuessNum: Dispatch<SetStateAction<number>>;
 };
 
+export type AudioControlsProps = {
+  song: Song;
+  guessNum: number;
+};
+
 // Playlist Object
 
 export type Artists = {
