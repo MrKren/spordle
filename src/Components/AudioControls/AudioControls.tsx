@@ -6,11 +6,20 @@ import { AudioControlsProps } from "../types";
 
 const AudioControls: VFC<AudioControlsProps> = ({ song, guessNum }) => {
   const [playing, setPlaying] = useState(false);
+  const [time, setTime] = useState(1);
   const audioRef = useRef(new Audio());
+
+  useEffect(() => {
+    setTime((t) => t + guessNum + 1);
+  }, [guessNum]);
 
   useEffect(() => {
     if (playing) {
       audioRef.current.play();
+      setTimeout(() => {
+        setPlaying(!playing);
+      }, time * 1000);
+      audioRef.current.currentTime = 0;
     } else {
       audioRef.current.pause();
     }
@@ -22,6 +31,9 @@ const AudioControls: VFC<AudioControlsProps> = ({ song, guessNum }) => {
       <Fab onClick={() => setPlaying(!playing)}>
         {playing ? <PauseIcon /> : <PlayArrowIcon />}
       </Fab>
+      <Box sx={{ marginTop: "10px" }}>
+        <span>Time: {time}s</span>
+      </Box>
     </Box>
   );
 };

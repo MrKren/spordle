@@ -31,8 +31,8 @@ const GuessPanel: VFC<GuessPanelProps> = ({
       setGuessedList(newGuessedList);
       if (guess === randomSong) {
         setSuccess(true);
-        setGuessNum(guessNumber + 1);
       }
+      setGuessNum(guessNumber + 1);
     }
   }, [guess]);
 
@@ -54,7 +54,8 @@ const GuessPanel: VFC<GuessPanelProps> = ({
               sx={{
                 textAlign: "center",
                 padding: "5px",
-                height: "30px",
+                height: "100%",
+                minHeight: "30px",
                 color: randomSong === val ? "green" : "red",
               }}
             >
@@ -73,6 +74,7 @@ const GuessPanel: VFC<GuessPanelProps> = ({
             options={guessList}
             renderInput={(params) => <TextField {...params} label="Guess" />}
             onChange={(e, value) => {
+              console.log("guess");
               setGuess(value);
             }}
           />

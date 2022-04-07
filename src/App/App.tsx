@@ -49,7 +49,7 @@ function App() {
   const [tracklist, setTracklist] = useState({} as Tracklist);
   const [song, setSong] = useState({} as Song);
   const [success, setSuccess] = useState(false);
-  const [guessNum, setGuessNum] = useState(0);
+  const [guessNum, setGuessNum] = useState(-1);
   const playlistSet = Object.keys(playlist).length !== 0;
 
   useEffect(() => {
