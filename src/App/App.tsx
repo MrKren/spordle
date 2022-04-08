@@ -19,7 +19,7 @@ const theme = createTheme({
 });
 
 const clientId = encodeURIComponent("cd8d92cbc0ea42fc8ad3e9b0997b1b8b");
-const redirectUri = encodeURIComponent("http://localhost:3000");
+const redirectUri = encodeURIComponent(window.location.href);
 let authUrl = `https://accounts.spotify.com/authorize`;
 authUrl += "?response_type=token";
 authUrl += `&client_id=${clientId}`;
