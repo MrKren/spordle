@@ -74,7 +74,6 @@ const GuessPanel: VFC<GuessPanelProps> = ({
             options={guessList}
             renderInput={(params) => <TextField {...params} label="Guess" />}
             onChange={(e, value) => {
-              console.log("guess");
               setGuess(value);
             }}
           />
