@@ -1,7 +1,7 @@
 {
   "name": "spotify-heardle",
   "version": "0.1.0",
-  "homepage": "https://mrkren.github.io/spotify-heardle",
+  "homepage": "https://spotify-heardle.herokuapp.com/",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.8.2",
