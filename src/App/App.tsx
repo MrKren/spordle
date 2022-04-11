@@ -80,7 +80,7 @@ function App() {
       <Container
         sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
       >
-        <h1>Spotify Heardle</h1>
+        <h1>Spordle</h1>
         {!authenticated && <a href={authUrl}>Authenticate</a>}
         {authenticated && <Selector token={token} setPlaylist={setPlaylist} />}
         {authenticated && playlistSet && (
