@@ -35,6 +35,7 @@ export type ResultsPanelProps = {
   song: Song;
   guessNum: number;
   success: boolean;
+  resetFn: () => void;
 };
 
 // Playlist Object
