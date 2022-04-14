@@ -31,6 +31,12 @@ export type AudioControlsProps = {
   guessNum: number;
 };
 
+export type ResultsPanelProps = {
+  song: Song;
+  guessNum: number;
+  success: boolean;
+};
+
 // Playlist Object
 
 export type Artists = {

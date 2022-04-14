@@ -5,6 +5,7 @@ import Selector from "../Components/Selector";
 import { Playlist, Song, Token, Tracklist } from "../Components/types";
 import GuessPanel from "../Components/GuessPanel";
 import AudioControls from "../Components/AudioControls";
+import ResultsPanel from "../Components/ResultsPanel";
 
 const theme = createTheme({
   palette: {
@@ -51,6 +52,7 @@ function App() {
   const [success, setSuccess] = useState(false);
   const [guessNum, setGuessNum] = useState(-1);
   const playlistSet = Object.keys(playlist).length !== 0;
+  const gameOver = guessNum === 5 || success;
 
   useEffect(() => {
     if (playlistSet) {
@@ -94,6 +96,9 @@ function App() {
         )}
         {authenticated && playlistSet && (
           <AudioControls song={song} guessNum={guessNum} />
+        )}
+        {true && (
+          <ResultsPanel song={song} guessNum={guessNum} success={success} />
         )}
       </Container>
     </ThemeProvider>
