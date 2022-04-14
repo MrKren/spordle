@@ -30,13 +30,7 @@ const ResultsPanel: VFC<ResultsPanelProps> = ({
         </DialogContent>
         <DialogActions>
           <Button>Share</Button>
-          <Button
-            onClick={() => {
-              resetFn();
-            }}
-          >
-            Play Again
-          </Button>
+          <Button onClick={resetFn}>Play Again</Button>
         </DialogActions>
       </Box>
     </Dialog>
