@@ -1,11 +1,10 @@
-import React, { useState, VFC } from "react";
+import React, { VFC } from "react";
 import {
   Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
 } from "@mui/material";
 import { ResultsPanelProps } from "../types";
@@ -16,20 +15,23 @@ const ResultsPanel: VFC<ResultsPanelProps> = ({
   success,
   resetFn,
 }) => {
-  const [open, setOpen] = useState(true);
-
   return (
-    <Dialog open={open}>
+    <Dialog open={true}>
       <Box sx={{ textAlign: "center" }}>
         <DialogTitle>{success ? "Victory" : "Defeat"}</DialogTitle>
         <DialogContent>
-          <DialogContentText></DialogContentText>
+          <p>
+            {success
+              ? "Well done you guessed correctly!"
+              : "Better luck next time!"}
+          </p>
+          <img src={song.albumArt} alt="Album Cover Art" width="100%" />
+          <h5>{song.song}</h5>
         </DialogContent>
         <DialogActions>
           <Button>Share</Button>
           <Button
             onClick={() => {
-              setOpen(false);
               resetFn();
             }}
           >

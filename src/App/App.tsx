@@ -84,6 +84,7 @@ function App() {
         return {
           song: `${artist} - ${name}`,
           link: val.track.preview_url,
+          albumArt: val.track.album.images[0].url,
         };
       });
       const rand = generateRandomNum(playlist.tracks.items.length);

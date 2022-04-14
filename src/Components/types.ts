@@ -7,6 +7,7 @@ export type Token = string | null;
 export type Song = {
   song: string;
   link: string;
+  albumArt: string;
 };
 
 export type Tracklist = Song[];
@@ -50,6 +51,9 @@ export type Track = {
     name: string;
     preview_url: string;
     artists: Artists[];
+    album: {
+      images: { url: string }[];
+    };
   };
 };
 
