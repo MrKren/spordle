@@ -11,6 +11,7 @@ import { ResultsPanelProps } from "../types";
 
 const ResultsPanel: VFC<ResultsPanelProps> = ({
   song,
+  playlist,
   guessNum,
   success,
   resetFn,
@@ -24,6 +25,17 @@ const ResultsPanel: VFC<ResultsPanelProps> = ({
       return fail.repeat(guessNum) + win + blank.repeat(5 - guessNum);
     }
     return fail.repeat(6);
+  };
+
+  const generateShareText = () => {
+    const shareText =
+      `https://spordle.herokuapp.com/\n\n` +
+      `Playlist: ${playlist.name}\n` +
+      `Link: ${playlist.external_urls.spotify}\n` +
+      `Song: ${song.song}\n\n` +
+      `${generateEmojis()}`;
+    console.log(shareText);
+    navigator.clipboard.writeText(shareText);
   };
 
   return (
@@ -41,7 +53,7 @@ const ResultsPanel: VFC<ResultsPanelProps> = ({
           <p>{generateEmojis()}</p>
         </DialogContent>
         <DialogActions>
-          <Button>Share</Button>
+          <Button onClick={generateShareText}>Share</Button>
           <Button onClick={resetFn}>Play Again</Button>
         </DialogActions>
       </Box>

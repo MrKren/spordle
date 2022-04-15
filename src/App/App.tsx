@@ -124,6 +124,7 @@ function App() {
           <ResultsPanel
             key={randomNum + "-ResultsPanel"}
             song={song}
+            playlist={playlist}
             guessNum={guessNum}
             success={success}
             resetFn={reset}

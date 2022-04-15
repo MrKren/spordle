@@ -34,6 +34,7 @@ export type AudioControlsProps = {
 
 export type ResultsPanelProps = {
   song: Song;
+  playlist: Playlist;
   guessNum: number;
   success: boolean;
   resetFn: () => void;
@@ -63,5 +64,8 @@ export type Playlist = {
   name: string;
   tracks: {
     items: Track[];
+  };
+  external_urls: {
+    spotify: string;
   };
 };
