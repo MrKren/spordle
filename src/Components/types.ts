@@ -7,6 +7,7 @@ export type Token = string | null;
 export type Song = {
   song: string;
   link: string;
+  albumArt: string;
 };
 
 export type Tracklist = Song[];
@@ -31,6 +32,14 @@ export type AudioControlsProps = {
   guessNum: number;
 };
 
+export type ResultsPanelProps = {
+  song: Song;
+  playlist: Playlist;
+  guessNum: number;
+  success: boolean;
+  resetFn: () => void;
+};
+
 // Playlist Object
 
 export type Artists = {
@@ -43,6 +52,9 @@ export type Track = {
     name: string;
     preview_url: string;
     artists: Artists[];
+    album: {
+      images: { url: string }[];
+    };
   };
 };
 
@@ -52,5 +64,8 @@ export type Playlist = {
   name: string;
   tracks: {
     items: Track[];
+  };
+  external_urls: {
+    spotify: string;
   };
 };

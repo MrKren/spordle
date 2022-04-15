@@ -5,6 +5,7 @@ import Selector from "../Components/Selector";
 import { Playlist, Song, Token, Tracklist } from "../Components/types";
 import GuessPanel from "../Components/GuessPanel";
 import AudioControls from "../Components/AudioControls";
+import ResultsPanel from "../Components/ResultsPanel";
 
 const theme = createTheme({
   palette: {
@@ -50,7 +51,24 @@ function App() {
   const [song, setSong] = useState({} as Song);
   const [success, setSuccess] = useState(false);
   const [guessNum, setGuessNum] = useState(-1);
+  const [randomNum, setRandomNum] = useState(-1);
   const playlistSet = Object.keys(playlist).length !== 0;
+  const gameOver = guessNum === 5 || success;
+
+  const generateRandomNum = (size: number) => {
+    return Math.floor(Math.random() * size);
+  };
+
+  const reset = (): void => {
+    let rand = randomNum;
+    while (rand === randomNum) {
+      rand = generateRandomNum(playlist.tracks.items.length);
+    }
+    setRandomNum(rand);
+    setSong(tracklist[rand]);
+    setSuccess(false);
+    setGuessNum(-1);
+  };
 
   useEffect(() => {
     if (playlistSet) {
@@ -66,9 +84,11 @@ function App() {
         return {
           song: `${artist} - ${name}`,
           link: val.track.preview_url,
+          albumArt: val.track.album.images[0].url,
         };
       });
-      const rand = Math.floor(Math.random() * playlist.tracks.items.length);
+      const rand = generateRandomNum(playlist.tracks.items.length);
+      setRandomNum(rand);
       setSong(trackNames[rand]);
       setTracklist(trackNames as Tracklist);
     }
@@ -85,6 +105,7 @@ function App() {
         {authenticated && <Selector token={token} setPlaylist={setPlaylist} />}
         {authenticated && playlistSet && (
           <GuessPanel
+            key={randomNum + "-GuessPanel"}
             tracklist={tracklist}
             song={song}
             success={success}
@@ -93,7 +114,21 @@ function App() {
           />
         )}
         {authenticated && playlistSet && (
-          <AudioControls song={song} guessNum={guessNum} />
+          <AudioControls
+            key={randomNum + "-AudioControl"}
+            song={song}
+            guessNum={guessNum}
+          />
+        )}
+        {gameOver && (
+          <ResultsPanel
+            key={randomNum + "-ResultsPanel"}
+            song={song}
+            playlist={playlist}
+            guessNum={guessNum}
+            success={success}
+            resetFn={reset}
+          />
         )}
       </Container>
     </ThemeProvider>
