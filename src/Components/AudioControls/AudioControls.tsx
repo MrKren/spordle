@@ -8,7 +8,8 @@ const AudioControls: VFC<AudioControlsProps> = ({ song, guessNum }) => {
   const [loaded, setLoaded] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [time, setTime] = useState(1);
-  const audioRef = useRef(new Audio());
+  const audioRef = useRef(new Audio(song.link));
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
   useEffect(() => {
     setTime((t) => t + guessNum + 1);
@@ -36,6 +37,16 @@ const AudioControls: VFC<AudioControlsProps> = ({ song, guessNum }) => {
       {loaded && (
         <Fab onClick={() => setPlaying(!playing)}>
           {playing ? <PauseIcon /> : <PlayArrowIcon />}
+        </Fab>
+      )}
+      {isMobile && !loaded && (
+        <Fab
+          onClick={() => {
+            audioRef.current.play(); // To trigger loading of track on IOS
+            audioRef.current.pause();
+          }}
+        >
+          <PlayArrowIcon />
         </Fab>
       )}
       <Box sx={{ marginTop: "10px" }}>
