@@ -4,6 +4,8 @@ A music guessing game based off [Heardle](https://www.heardle.app/) using Typesc
 
 To get started make sure you have installed node and yarn and then run `yarn` to install required packages.
 
+Live site: https://spordle.herokuapp.com/
+
 ## Available Scripts
 
 In the project directory, you can run:
