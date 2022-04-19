@@ -11,6 +11,7 @@ const AudioControls: VFC<AudioControlsProps> = ({ song, guessNum }) => {
   const [playing, setPlaying] = useState(false);
   const [time, setTime] = useState(1);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
   useEffect(() => {
     setTime((t) => t + guessNum + 1);
@@ -31,6 +32,11 @@ const AudioControls: VFC<AudioControlsProps> = ({ song, guessNum }) => {
       <audio
         ref={audioRef}
         src={song.link}
+        onLoadStart={() => {
+          if (!isMobile) {
+            setInitialClick(true);
+          }
+        }}
         onCanPlayThrough={() => setLoaded(true)}
         onTimeUpdate={() => {
           if (audioRef.current && audioRef.current.currentTime >= time) {
