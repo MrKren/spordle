@@ -2,29 +2,33 @@ import { Box, CircularProgress, Fab } from "@mui/material";
 import React, { useEffect, useRef, useState, VFC } from "react";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
+import DownloadingIcon from "@mui/icons-material/Downloading";
 import { AudioControlsProps } from "../types";
 
 const AudioControls: VFC<AudioControlsProps> = ({ song, guessNum }) => {
   const [loaded, setLoaded] = useState(false);
+  const [initialClick, setInitialClick] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [time, setTime] = useState(1);
-  const audioRef = useRef(new Audio(song.link));
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
     setTime((t) => t + guessNum + 1);
   }, [guessNum]);
 
   useEffect(() => {
-    if (playing) {
-      audioRef.current.play();
-      setTimeout(() => {
-        setPlaying(!playing);
-      }, time * 1000);
-      audioRef.current.currentTime = 0;
-    } else {
-      audioRef.current.pause();
+    if (audioRef.current !== null) {
+      if (playing) {
+        audioRef.current.play();
+        setTimeout(() => {
+          setPlaying(false);
+        }, time * 1000);
+        audioRef.current.currentTime = 0;
+      } else {
+        audioRef.current.pause();
+      }
     }
-  }, [playing]);
+  }, [playing, time]);
 
   return (
     <Box sx={{ margin: "20px" }}>
@@ -39,8 +43,13 @@ const AudioControls: VFC<AudioControlsProps> = ({ song, guessNum }) => {
         </Fab>
       )}
       {!loaded && (
-        <Fab>
-          <CircularProgress />
+        <Fab
+          onClick={() => {
+            setInitialClick(true);
+            audioRef.current?.load();
+          }}
+        >
+          {initialClick ? <CircularProgress /> : <DownloadingIcon />}
         </Fab>
       )}
       <Box sx={{ marginTop: "10px" }}>
