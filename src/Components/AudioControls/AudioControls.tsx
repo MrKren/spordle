@@ -20,15 +20,11 @@ const AudioControls: VFC<AudioControlsProps> = ({ song, guessNum }) => {
     if (audioRef.current !== null) {
       if (playing) {
         audioRef.current.play();
-        setTimeout(() => {
-          setPlaying(false);
-        }, time * 1000);
-        audioRef.current.currentTime = 0;
       } else {
         audioRef.current.pause();
       }
     }
-  }, [playing, time]);
+  }, [playing]);
 
   return (
     <Box sx={{ margin: "20px" }}>
@@ -36,6 +32,12 @@ const AudioControls: VFC<AudioControlsProps> = ({ song, guessNum }) => {
         ref={audioRef}
         src={song.link}
         onCanPlayThrough={() => setLoaded(true)}
+        onTimeUpdate={() => {
+          if (audioRef.current && audioRef.current.currentTime >= time) {
+            audioRef.current.currentTime = 0;
+            setPlaying(false);
+          }
+        }}
       />
       {loaded && (
         <Fab onClick={() => setPlaying(!playing)}>
