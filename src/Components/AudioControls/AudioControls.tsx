@@ -7,10 +7,10 @@ import { AudioControlsProps } from "../types";
 
 const AudioControls: VFC<AudioControlsProps> = ({ song, guessNum }) => {
   const [loaded, setLoaded] = useState(false);
+  const [initialClick, setInitialClick] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [time, setTime] = useState(1);
-  const [initialClick, setInitialClick] = useState(false);
-  const audioRef = useRef(new Audio(song.link));
+  const audioRef = useRef<HTMLAudioElement>(null);
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
   useEffect(() => {
@@ -18,14 +18,12 @@ const AudioControls: VFC<AudioControlsProps> = ({ song, guessNum }) => {
   }, [guessNum]);
 
   useEffect(() => {
-    if (playing) {
-      audioRef.current.play();
-      setTimeout(() => {
-        setPlaying(!playing);
-      }, time * 1000);
-      audioRef.current.currentTime = 0;
-    } else {
-      audioRef.current.pause();
+    if (audioRef.current !== null) {
+      if (playing) {
+        audioRef.current.play();
+      } else {
+        audioRef.current.pause();
+      }
     }
   }, [playing]);
 
@@ -34,24 +32,29 @@ const AudioControls: VFC<AudioControlsProps> = ({ song, guessNum }) => {
       <audio
         ref={audioRef}
         src={song.link}
+        onLoadStart={() => {
+          if (!isMobile) {
+            setInitialClick(true);
+          }
+        }}
         onCanPlayThrough={() => setLoaded(true)}
+        onTimeUpdate={() => {
+          if (audioRef.current && audioRef.current.currentTime >= time) {
+            audioRef.current.currentTime = 0;
+            setPlaying(false);
+          }
+        }}
       />
       {loaded && (
         <Fab onClick={() => setPlaying(!playing)}>
           {playing ? <PauseIcon /> : <PlayArrowIcon />}
         </Fab>
       )}
-      {!isMobile && !loaded && (
-        <Fab>
-          <CircularProgress />
-        </Fab>
-      )}
-      {isMobile && !loaded && (
+      {!loaded && (
         <Fab
           onClick={() => {
             setInitialClick(true);
-            audioRef.current.play(); // To trigger loading of track on IOS
-            audioRef.current.pause();
+            audioRef.current?.load();
           }}
         >
           {initialClick ? <CircularProgress /> : <DownloadingIcon />}
