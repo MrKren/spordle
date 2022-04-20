@@ -19,6 +19,18 @@ const theme = createTheme({
   },
 });
 
+theme.components = {
+  MuiLinearProgress: {
+    styleOverrides: {
+      dashed: {
+        animation: "none",
+        backgroundImage: "none",
+        backgroundColor: theme.palette.secondary.main,
+      },
+    },
+  },
+};
+
 const clientId = encodeURIComponent("cd8d92cbc0ea42fc8ad3e9b0997b1b8b");
 const redirectUri = encodeURIComponent(window.location.href);
 let authUrl = `https://accounts.spotify.com/authorize`;
