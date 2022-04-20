@@ -55,16 +55,20 @@ export type Track = {
     album: {
       images: { url: string }[];
     };
+    id: string;
   };
+};
+
+export type Tracks = {
+  items: Track[];
+  next: string | null;
 };
 
 export type Playlist = {
   description: string;
   id: string;
   name: string;
-  tracks: {
-    items: Track[];
-  };
+  tracks: Tracks;
   external_urls: {
     spotify: string;
   };
