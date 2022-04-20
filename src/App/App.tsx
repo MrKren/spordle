@@ -73,21 +73,32 @@ function App() {
   useEffect(() => {
     if (playlistSet) {
       const tracks = playlist.tracks.items;
-      const trackNames = tracks.map((val) => {
-        const name = val.track.name;
-        const artists = val.track.artists.map((artist) => artist.name);
-        let artist = "";
-        for (let i = 0; i < artists.length; i++) {
-          artist += artists[i] + ", ";
-        }
-        artist = artist.slice(0, -2);
-        return {
-          song: `${artist} - ${name}`,
-          link: val.track.preview_url,
-          albumArt: val.track.album.images[0].url,
-        };
-      });
-      const rand = generateRandomNum(playlist.tracks.items.length);
+      let deadTracks = 0;
+      let trackNames = tracks
+        .filter((val) => {
+          const preview = val.track.preview_url !== null;
+          if (!preview) {
+            deadTracks += 1;
+          }
+          return preview;
+        })
+        .map((val) => {
+          const name = val.track.name;
+          const artists = val.track.artists.map((artist) => artist.name);
+          let artist = "";
+          for (let i = 0; i < artists.length; i++) {
+            artist += artists[i] + ", ";
+          }
+          artist = artist.slice(0, -2);
+
+          return {
+            song: `${artist} - ${name}`,
+            link: val.track.preview_url,
+            albumArt: val.track.album.images[0].url,
+          };
+        });
+      console.log(`There are ${deadTracks} tracks with no preview`);
+      const rand = generateRandomNum(trackNames.length);
       setRandomNum(rand);
       setSong(trackNames[rand]);
       setTracklist(trackNames as Tracklist);

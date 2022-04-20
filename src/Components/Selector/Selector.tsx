@@ -1,5 +1,5 @@
 import React, { useEffect, useState, VFC } from "react";
-import { Playlist, SelectorProps } from "../types";
+import { Playlist, SelectorProps, Tracks } from "../types";
 import axios, { AxiosResponse } from "axios";
 import { FormHelperText, Button, Box, TextField } from "@mui/material";
 
@@ -10,6 +10,27 @@ const Selector: VFC<SelectorProps> = ({ token, setPlaylist }) => {
     status: 200,
   } as AxiosResponse);
   const apiUrl = "https://api.spotify.com/v1/playlists/";
+
+  const fetchFullPlaylist = async (
+    playlist: Playlist,
+    entryUrl: string | null
+  ) => {
+    let url = entryUrl;
+    while (url !== null) {
+      await axios
+        .get(url, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        })
+        .then((response) => {
+          const newData = { ...response.data } as Tracks;
+          newData.items.map((track) => playlist.tracks.items.push(track));
+          url = newData.next;
+        });
+    }
+  };
 
   useEffect(() => {
     // Process url
@@ -29,9 +50,11 @@ const Selector: VFC<SelectorProps> = ({ token, setPlaylist }) => {
             "Content-Type": "application/json",
           },
         })
-        .then((response) => {
+        .then(async (response) => {
           setApiResponse(response);
-          setPlaylist({ ...response.data } as Playlist);
+          let playlist = { ...response.data } as Playlist;
+          await fetchFullPlaylist(playlist, playlist.tracks.next);
+          setPlaylist(playlist);
         })
         .catch((error) => {
           setApiResponse(error.response);
