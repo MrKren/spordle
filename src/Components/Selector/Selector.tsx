@@ -11,27 +11,6 @@ const Selector: VFC<SelectorProps> = ({ token, setPlaylist }) => {
   } as AxiosResponse);
   const apiUrl = "https://api.spotify.com/v1/playlists/";
 
-  const fetchFullPlaylist = async (
-    playlist: Playlist,
-    entryUrl: string | null
-  ) => {
-    let url = entryUrl;
-    while (url !== null) {
-      await axios
-        .get(url, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        })
-        .then((response) => {
-          const newData = { ...response.data } as Tracks;
-          newData.items.map((track) => playlist.tracks.items.push(track));
-          url = newData.next;
-        });
-    }
-  };
-
   useEffect(() => {
     // Process url
     const returnUrl = "https://open.spotify.com/playlist/";
@@ -53,7 +32,23 @@ const Selector: VFC<SelectorProps> = ({ token, setPlaylist }) => {
         .then(async (response) => {
           setApiResponse(response);
           let playlist = { ...response.data } as Playlist;
-          await fetchFullPlaylist(playlist, playlist.tracks.next);
+
+          // Fetch more songs for playlist longer than 100 songs
+          let url = playlist.tracks.next;
+          while (url !== null) {
+            await axios
+              .get(url, {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "Content-Type": "application/json",
+                },
+              })
+              .then((response) => {
+                const newData = { ...response.data } as Tracks;
+                newData.items.map((track) => playlist.tracks.items.push(track));
+                url = newData.next;
+              });
+          }
           setPlaylist(playlist);
         })
         .catch((error) => {
@@ -83,6 +78,7 @@ const Selector: VFC<SelectorProps> = ({ token, setPlaylist }) => {
               setPlaylistId(textfieldValue);
             }
           }}
+          autoComplete="off"
         />
         <Button
           variant="contained"
