@@ -25,11 +25,13 @@ export type GuessPanelProps = {
   success: boolean;
   setSuccess: Dispatch<SetStateAction<boolean>>;
   setGuessNum: Dispatch<SetStateAction<number>>;
+  skipList: boolean[];
 };
 
 export type AudioControlsProps = {
   song: Song;
   guessNum: number;
+  skipCallback: () => void;
 };
 
 export type ResultsPanelProps = {

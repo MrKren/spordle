@@ -3,9 +3,14 @@ import React, { useEffect, useRef, useState, VFC } from "react";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
 import DownloadingIcon from "@mui/icons-material/Downloading";
+import FastForwardIcon from "@mui/icons-material/FastForward";
 import { AudioControlsProps } from "../types";
 
-const AudioControls: VFC<AudioControlsProps> = ({ song, guessNum }) => {
+const AudioControls: VFC<AudioControlsProps> = ({
+  song,
+  guessNum,
+  skipCallback,
+}) => {
   const [loaded, setLoaded] = useState(false);
   const [initialClick, setInitialClick] = useState(false);
   const [playing, setPlaying] = useState(false);
@@ -57,42 +62,52 @@ const AudioControls: VFC<AudioControlsProps> = ({ song, guessNum }) => {
           }
         }}
       />
-      {loaded && (
-        <Fab onClick={() => setPlaying(!playing)}>
-          {playing ? <PauseIcon /> : <PlayArrowIcon />}
-        </Fab>
-      )}
-      {!loaded && (
-        <Fab
-          onClick={() => {
-            setInitialClick(true);
-            audioRef.current?.load();
-          }}
-        >
-          {initialClick ? <CircularProgress /> : <DownloadingIcon />}
-        </Fab>
-      )}
       <Box
         sx={{
-          marginTop: "10px",
+          width: "90%",
           display: "flex",
           alignItems: "center",
-          width: "100%",
+          justifyContent: "space-between",
         }}
       >
-        <Box sx={{ width: "80%", margin: "10px" }}>
-          <LinearProgress
-            // sx={{ height: "10px" }}
-            variant="buffer"
-            value={(playbackTime / 16) * 100}
-            valueBuffer={(time / 16) * 100}
-          />
-        </Box>
-        <Box sx={{ marginLeft: "10px" }}>
+        <Fab variant="extended" color="primary" onClick={skipCallback}>
+          <FastForwardIcon />
+          <Box sx={{ marginLeft: "10px" }}>Skip</Box>
+        </Fab>
+        {loaded && (
+          <Fab onClick={() => setPlaying(!playing)}>
+            {playing ? <PauseIcon /> : <PlayArrowIcon />}
+          </Fab>
+        )}
+        {!loaded && (
+          <Fab
+            onClick={() => {
+              setInitialClick(true);
+              audioRef.current?.load();
+            }}
+          >
+            {initialClick ? <CircularProgress /> : <DownloadingIcon />}
+          </Fab>
+        )}
+        <Box
+          sx={{
+            minWidth: "65px",
+            display: "flex",
+            justifyContent: "flex-end",
+          }}
+        >
           <span>
             {playbackTime}/{time}s
           </span>
         </Box>
+      </Box>
+      <Box sx={{ width: "100%" }}>
+        <LinearProgress
+          sx={{ height: "7px", margin: "20px 10px" }}
+          variant="buffer"
+          value={(playbackTime / 16) * 100}
+          valueBuffer={(time / 16) * 100}
+        />
       </Box>
     </Box>
   );
