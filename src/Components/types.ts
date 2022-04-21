@@ -30,6 +30,7 @@ export type GuessPanelProps = {
 export type AudioControlsProps = {
   song: Song;
   guessNum: number;
+  skipCallback: () => void;
 };
 
 export type ResultsPanelProps = {

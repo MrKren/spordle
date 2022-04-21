@@ -6,7 +6,11 @@ import DownloadingIcon from "@mui/icons-material/Downloading";
 import FastForwardIcon from "@mui/icons-material/FastForward";
 import { AudioControlsProps } from "../types";
 
-const AudioControls: VFC<AudioControlsProps> = ({ song, guessNum }) => {
+const AudioControls: VFC<AudioControlsProps> = ({
+  song,
+  guessNum,
+  skipCallback,
+}) => {
   const [loaded, setLoaded] = useState(false);
   const [initialClick, setInitialClick] = useState(false);
   const [playing, setPlaying] = useState(false);
@@ -66,7 +70,7 @@ const AudioControls: VFC<AudioControlsProps> = ({ song, guessNum }) => {
           justifyContent: "space-between",
         }}
       >
-        <Fab variant="extended" color="primary">
+        <Fab variant="extended" color="primary" onClick={skipCallback}>
           <FastForwardIcon />
           <Box sx={{ marginLeft: "10px" }}>Skip</Box>
         </Fab>

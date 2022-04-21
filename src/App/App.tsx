@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Container, CssBaseline } from "@mui/material";
 import Selector from "../Components/Selector";
@@ -64,6 +64,7 @@ function App() {
   const [success, setSuccess] = useState(false);
   const [guessNum, setGuessNum] = useState(-1);
   const [randomNum, setRandomNum] = useState(-1);
+  const [skipList, setSkipList] = useState(Array(6).fill(false));
   const playlistSet = Object.keys(playlist).length !== 0;
   const gameOver = guessNum === 5 || success;
 
@@ -117,6 +118,12 @@ function App() {
     }
   }, [playlist, playlistSet]);
 
+  const skipCallback = useCallback(() => {
+    const newSkipList = skipList.slice();
+    newSkipList[guessNum + 1] = true;
+    setSkipList(newSkipList);
+  }, [guessNum, skipList]);
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -141,6 +148,7 @@ function App() {
             key={randomNum + "-AudioControl"}
             song={song}
             guessNum={guessNum}
+            skipCallback={skipCallback}
           />
         )}
         {gameOver && (
