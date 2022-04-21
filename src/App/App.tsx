@@ -81,6 +81,7 @@ function App() {
     setSong(tracklist[rand]);
     setSuccess(false);
     setGuessNum(-1);
+    setSkipList(Array(6).fill(false));
   };
 
   useEffect(() => {
@@ -141,6 +142,7 @@ function App() {
             success={success}
             setSuccess={setSuccess}
             setGuessNum={setGuessNum}
+            skipList={skipList}
           />
         )}
         {authenticated && playlistSet && (

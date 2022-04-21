@@ -14,6 +14,7 @@ const GuessPanel: VFC<GuessPanelProps> = ({
   success,
   setSuccess,
   setGuessNum,
+  skipList,
 }) => {
   const [guess, setGuess] = useState(("" as string) || null);
   const [guessNumber, setGuessNumber] = useState(-1);
@@ -23,18 +24,23 @@ const GuessPanel: VFC<GuessPanelProps> = ({
   const randomSong = song.song;
 
   useEffect(() => {
-    if (guess !== "" && guess !== null) {
+    const skipped = skipList[guessNumber + 1];
+    if ((guess !== "" && guess !== null) || skipped) {
       setGuess("");
       setGuessNumber(guessNumber + 1);
       const newGuessedList = guessedList.slice();
-      newGuessedList[guessNumber + 1] = guess;
+      if (skipped) {
+        newGuessedList[guessNumber + 1] = "SKIPPED";
+      } else if (guess !== null) {
+        newGuessedList[guessNumber + 1] = guess;
+      }
       setGuessedList(newGuessedList);
       if (guess === randomSong) {
         setSuccess(true);
       }
       setGuessNum(guessNumber + 1);
     }
-  }, [guess]);
+  }, [guess, skipList]);
 
   if (Object.keys(tracklist).length > 0) {
     const guessList = tracklist.map((track) => track.song);
@@ -56,7 +62,11 @@ const GuessPanel: VFC<GuessPanelProps> = ({
                 padding: "5px",
                 height: "100%",
                 minHeight: "30px",
-                color: randomSong === val ? "green" : "red",
+                color: skipList[index]
+                  ? "gray"
+                  : randomSong === val
+                  ? "green"
+                  : "red",
               }}
             >
               {val}
