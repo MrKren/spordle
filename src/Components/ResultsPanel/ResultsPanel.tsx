@@ -1,4 +1,4 @@
-import React, { VFC } from "react";
+import React, { useState, VFC } from "react";
 import {
   Box,
   Button,
@@ -6,6 +6,8 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import { ResultsPanelProps } from "../types";
 
@@ -16,6 +18,8 @@ const ResultsPanel: VFC<ResultsPanelProps> = ({
   success,
   resetFn,
 }) => {
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+
   const generateEmojis = () => {
     const fail = "🟥";
     const win = "🟩";
@@ -34,8 +38,8 @@ const ResultsPanel: VFC<ResultsPanelProps> = ({
       `Link: ${playlist.external_urls.spotify}\n` +
       `Song: ${song.song}\n\n` +
       `${generateEmojis()}`;
-    console.log(shareText);
     navigator.clipboard.writeText(shareText);
+    setOpenSnackbar(true);
   };
 
   return (
@@ -57,6 +61,13 @@ const ResultsPanel: VFC<ResultsPanelProps> = ({
           <Button onClick={resetFn}>Play Again</Button>
         </DialogActions>
       </Box>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={2500}
+        onClose={() => setOpenSnackbar(false)}
+      >
+        <Alert severity="info">Copied to clipboard</Alert>
+      </Snackbar>
     </Dialog>
   );
 };
