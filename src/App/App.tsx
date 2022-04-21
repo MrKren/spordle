@@ -74,7 +74,7 @@ function App() {
   const reset = (): void => {
     let rand = randomNum;
     while (rand === randomNum) {
-      rand = generateRandomNum(playlist.tracks.items.length);
+      rand = generateRandomNum(tracklist.length);
     }
     setRandomNum(rand);
     setSong(tracklist[rand]);
