@@ -17,6 +17,7 @@ const ResultsPanel: VFC<ResultsPanelProps> = ({
   guessNum,
   success,
   resetFn,
+  skipList,
 }) => {
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
@@ -24,11 +25,21 @@ const ResultsPanel: VFC<ResultsPanelProps> = ({
     const fail = "🟥";
     const win = "🟩";
     const blank = "⬜";
+    const skip = "⬛";
+
+    const failSkipEmojis = (num: number) =>
+      Array(num)
+        .fill("")
+        .map((_, index) => {
+          if (skipList[index]) return skip;
+          return fail;
+        })
+        .join("");
 
     if (success) {
-      return fail.repeat(guessNum) + win + blank.repeat(5 - guessNum);
+      return failSkipEmojis(guessNum) + win + blank.repeat(5 - guessNum);
     }
-    return fail.repeat(6);
+    return failSkipEmojis(6);
   };
 
   const generateShareText = () => {

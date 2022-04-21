@@ -186,6 +186,7 @@ function App() {
             guessNum={guessNum}
             success={success}
             resetFn={reset}
+            skipList={skipList}
           />
         )}
       </Container>
