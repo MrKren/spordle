@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Container, CssBaseline } from "@mui/material";
+import { Alert, Container, CssBaseline, Snackbar, Box } from "@mui/material";
 import Selector from "../Components/Selector";
 import { Playlist, Song, Token, Tracklist } from "../Components/types";
 import GuessPanel from "../Components/GuessPanel";
@@ -65,6 +65,10 @@ function App() {
   const [guessNum, setGuessNum] = useState(-1);
   const [randomNum, setRandomNum] = useState(-1);
   const [skipList, setSkipList] = useState(Array(6).fill(false));
+  const [openSnackbar, setOpenSnackbar] = useState({
+    open: false,
+    deadTracks: 0,
+  });
   const playlistSet = Object.keys(playlist).length !== 0;
   const gameOver = guessNum === 5 || success;
 
@@ -111,7 +115,9 @@ function App() {
             albumArt: val.track.album.images[0].url,
           };
         });
-      console.log(`There are ${deadTracks} tracks with no preview`);
+      if (deadTracks > 0) {
+        setOpenSnackbar({ open: true, deadTracks: deadTracks });
+      }
       const rand = generateRandomNum(trackNames.length);
       setRandomNum(rand);
       setSong(trackNames[rand]);
@@ -133,7 +139,26 @@ function App() {
       >
         <h1>Spordle</h1>
         {!authenticated && <a href={authUrl}>Authenticate</a>}
-        {authenticated && <Selector token={token} setPlaylist={setPlaylist} />}
+        {authenticated && (
+          <Box>
+            <Selector token={token} setPlaylist={setPlaylist} />
+            <Snackbar
+              open={openSnackbar.open}
+              autoHideDuration={6000}
+              onClose={() =>
+                setOpenSnackbar({
+                  open: false,
+                  deadTracks: openSnackbar.deadTracks,
+                })
+              }
+            >
+              <Alert severity="info">
+                {openSnackbar.deadTracks} tracks have been exluded as they have
+                no preview available
+              </Alert>
+            </Snackbar>
+          </Box>
+        )}
         {authenticated && playlistSet && (
           <GuessPanel
             key={randomNum + "-GuessPanel"}
@@ -161,6 +186,7 @@ function App() {
             guessNum={guessNum}
             success={success}
             resetFn={reset}
+            skipList={skipList}
           />
         )}
       </Container>

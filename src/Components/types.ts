@@ -40,6 +40,7 @@ export type ResultsPanelProps = {
   guessNum: number;
   success: boolean;
   resetFn: () => void;
+  skipList: boolean[];
 };
 
 // Playlist Object
