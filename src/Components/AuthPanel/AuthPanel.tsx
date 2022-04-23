@@ -1,5 +1,5 @@
 import React, { VFC, useEffect } from "react";
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { AuthPanelProps } from "../types";
 
 const AuthPanel: VFC<AuthPanelProps> = ({ setToken }) => {
@@ -23,8 +23,27 @@ const AuthPanel: VFC<AuthPanelProps> = ({ setToken }) => {
   }, [currentUrl]);
 
   return (
-    <Box>
-      <a href={authUrl}>Authenticate</a>
+    <Box
+      sx={{
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        textAlign: "center",
+      }}
+    >
+      <Box>
+        <p>How well do you know your playlists?</p>
+        <p>
+          Spordle is a music guessing game based off{" "}
+          <a href="https://www.heardle.app/">Heardle</a> using the Spotify API
+        </p>
+      </Box>
+      <a href={authUrl} style={{ textDecoration: "unset" }}>
+        <Button variant="contained" sx={{ marginTop: "20px" }}>
+          Log in with Spotify
+        </Button>
+      </a>
     </Box>
   );
 };
