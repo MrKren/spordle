@@ -44,8 +44,8 @@ export type ResultsPanelProps = {
 };
 
 export type AuthPanelProps = {
-  setAuthenticated:  Dispatch<SetStateAction<boolean>>;
-}
+  setToken: Dispatch<SetStateAction<Token>>;
+};
 
 // Playlist Object
 
