@@ -59,7 +59,8 @@ const Selector: VFC<SelectorProps> = ({ token, setPlaylist }) => {
 
   const errorCode = () => {
     if (apiResponse.status === 401) {
-      return "Session Expired";
+      document.location.hash = "";
+      document.location.href = document.location.href.slice(0, -2);
     }
     if (apiResponse.status === 404) {
       return "Playlist not found";
