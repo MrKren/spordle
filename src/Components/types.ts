@@ -43,6 +43,10 @@ export type ResultsPanelProps = {
   skipList: boolean[];
 };
 
+export type AuthPanelProps = {
+  setToken: Dispatch<SetStateAction<Token>>;
+};
+
 // Playlist Object
 
 export type Artists = {
