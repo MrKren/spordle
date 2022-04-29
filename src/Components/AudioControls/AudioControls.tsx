@@ -96,7 +96,7 @@ const AudioControls: VFC<AudioControlsProps> = ({
             justifyContent: "flex-end",
           }}
         >
-          <span>
+          <span data-testid="playback-text">
             {playbackTime}/{time}s
           </span>
         </Box>
