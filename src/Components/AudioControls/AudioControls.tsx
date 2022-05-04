@@ -61,6 +61,7 @@ const AudioControls: VFC<AudioControlsProps> = ({
             setPlaying(false);
           }
         }}
+        data-testid="audio-element"
       />
       <Box
         sx={{
@@ -86,7 +87,11 @@ const AudioControls: VFC<AudioControlsProps> = ({
               audioRef.current?.load();
             }}
           >
-            {initialClick ? <CircularProgress /> : <DownloadingIcon />}
+            {initialClick ? (
+              <CircularProgress data-testid="CircularProgress" />
+            ) : (
+              <DownloadingIcon />
+            )}
           </Fab>
         )}
         <Box
@@ -96,7 +101,7 @@ const AudioControls: VFC<AudioControlsProps> = ({
             justifyContent: "flex-end",
           }}
         >
-          <span>
+          <span data-testid="playback-text">
             {playbackTime}/{time}s
           </span>
         </Box>
