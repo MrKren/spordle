@@ -49,7 +49,6 @@ const AudioControls: VFC<AudioControlsProps> = ({
         onLoadStart={() => {
           if (!isMobile) {
             setInitialClick(true);
-            console.log("aa");
           }
         }}
         onCanPlayThrough={() => setLoaded(true)}

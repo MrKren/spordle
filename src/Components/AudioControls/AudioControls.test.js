@@ -69,4 +69,35 @@ describe("AudioControls", () => {
     fireEvent.canPlayThrough(audioElement);
     expect(screen.getByTestId("PlayArrowIcon")).toBeTruthy();
   });
+
+  it("plays or pauses when play button is pressed", () => {
+    render(component(-1));
+    const audioElement = screen.queryByTestId("audio-element");
+    fireEvent.canPlayThrough(audioElement);
+    const playMock = jest.spyOn(window.HTMLAudioElement.prototype, "play");
+    const pauseMock = jest.spyOn(window.HTMLAudioElement.prototype, "pause");
+
+    fireEvent.click(screen.getByTestId("PlayArrowIcon"));
+    expect(playMock).toHaveBeenCalled();
+
+    fireEvent.click(screen.getByTestId("PauseIcon"));
+    expect(pauseMock).toHaveBeenCalled();
+  });
+
+  it("pauses when time limit is reached", () => {
+    render(component(-1));
+    const audioElement = screen.queryByTestId("audio-element");
+    fireEvent.canPlayThrough(audioElement);
+    const pauseMock = jest.spyOn(window.HTMLAudioElement.prototype, "pause");
+    const currentTimeMock = jest.spyOn(
+      window.HTMLAudioElement.prototype,
+      "currentTime",
+      "get"
+    );
+    currentTimeMock.mockReturnValue(1.1);
+
+    fireEvent.click(screen.getByTestId("PlayArrowIcon"));
+    fireEvent.timeUpdate(audioElement);
+    expect(pauseMock).toHaveBeenCalled();
+  });
 });
