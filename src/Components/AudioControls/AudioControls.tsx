@@ -49,6 +49,7 @@ const AudioControls: VFC<AudioControlsProps> = ({
         onLoadStart={() => {
           if (!isMobile) {
             setInitialClick(true);
+            console.log("aa");
           }
         }}
         onCanPlayThrough={() => setLoaded(true)}
@@ -61,6 +62,7 @@ const AudioControls: VFC<AudioControlsProps> = ({
             setPlaying(false);
           }
         }}
+        data-testid="audio-element"
       />
       <Box
         sx={{
@@ -86,7 +88,11 @@ const AudioControls: VFC<AudioControlsProps> = ({
               audioRef.current?.load();
             }}
           >
-            {initialClick ? <CircularProgress /> : <DownloadingIcon />}
+            {initialClick ? (
+              <CircularProgress data-testid="CircularProgress" />
+            ) : (
+              <DownloadingIcon />
+            )}
           </Fab>
         )}
         <Box
