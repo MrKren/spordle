@@ -40,3 +40,21 @@ Style and type checking.
 ### `yarn fmt`
 
 Automated style formatting.
+
+## CI Setup
+
+Make sure you have docker installed (instructions found [here](https://docs.docker.com/get-docker/)).
+
+Run `docker compose up` to run the docker compose file and pull the relevant `gitlab-runner` image.
+
+Then use the following command to begin registration of the gitlab runner:
+
+`docker exec -it spordle-runner-1 gitlab-runner register --docker-privileged --docker-volumes "/var/run/docker.sock:/var/run/docker.sock"`
+
+Enter the url and registration token found in the [CI/CD settings](https://gitlab.com/MrKren/spordle/-/settings/ci_cd#js-runners-settings).
+
+Following the rest of the steps:
+
+For executor: `docker`
+
+For image: `docker:stable`
