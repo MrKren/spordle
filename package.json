@@ -26,10 +26,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
     "test": "react-scripts test",
     "lint": "eslint src && prettier --check src && tsc --noEmit -p .",
-    "fmt": "eslint src --fix && prettier --write src"
+    "fmt": "eslint src --fix && prettier --write src",
+    "ci": "docker compose up"
   },
   "eslintConfig": {
     "extends": [
