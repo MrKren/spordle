@@ -7,19 +7,13 @@ build-image:
   stage: build
   script:
     - docker build -t spordle:latest .
-  only:
-    - merge_requests
 
 unit-tests:
   stage: test
   script:
     - docker run --rm spordle:latest /bin/bash -c 'yarn test --watchAll=false'
-  only:
-    - merge_requests
 
 lint:
   stage: test
   script:
     - docker run --rm spordle:latest /bin/bash -c 'yarn lint'
-  only:
-    - merge_requests
