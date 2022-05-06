@@ -5,6 +5,7 @@ A music guessing game based off [Heardle](https://www.heardle.app/) using Typesc
 To get started make sure you have installed node and yarn and then run `yarn` to install required packages.
 
 Live site: https://spordle.herokuapp.com/
+CI Pipelines: https://gitlab.com/MrKren/spordle/-/pipelines
 
 ## Available Scripts
 
@@ -23,16 +24,6 @@ You will also see any lint errors in the console.
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
 ### `yarn lint`
 
 Style and type checking.
@@ -40,6 +31,10 @@ Style and type checking.
 ### `yarn fmt`
 
 Automated style formatting.
+
+### `yarn ci`
+
+Start the Gitlab Runner container for processing CI jobs.
 
 ## CI Setup
 
