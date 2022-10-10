@@ -88,6 +88,13 @@ const AuthPanel: VFC<AuthPanelProps> = ({ setToken }) => {
           Log in with Spotify
         </Button>
       </a>
+      <Button
+        variant="contained"
+        sx={{ marginTop: "20px" }}
+        onClick={() => setToken("AppDemo")}
+      >
+        Demo the app
+      </Button>
       <h4>Created using:</h4>
       <Grid container width="300px" spacing={2}>
         {logos.map(({ name, src, link, width }) => (

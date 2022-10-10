@@ -7,6 +7,7 @@ import GuessPanel from "../Components/GuessPanel";
 import AudioControls from "../Components/AudioControls";
 import ResultsPanel from "../Components/ResultsPanel";
 import AuthPanel from "../Components/AuthPanel";
+import DemoPlaylist from "../Assets/demo.json";
 
 const theme = createTheme({
   palette: {
@@ -110,6 +111,12 @@ function App() {
     newSkipList[guessNum + 1] = true;
     setSkipList(newSkipList);
   }, [guessNum, skipList]);
+
+  useEffect(() => {
+    if (token === "AppDemo") {
+      setPlaylist(DemoPlaylist);
+    }
+  }, [setPlaylist, token]);
 
   return (
     <ThemeProvider theme={theme}>
