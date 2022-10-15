@@ -1,0 +1,14 @@
+name: spordle-merge-request-flow
+run-name: Spordle Test Flow 🚀
+on: [pull_request]
+jobs:
+  Lint:
+    runs-on: self-hosted
+    container: node:18-alpine
+    steps:
+      - run: yarn lint
+  Unit-Tests:
+    runs-on: self-hosted
+    container: node:18-alpine
+    steps:
+      - run: yarn test
