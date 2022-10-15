@@ -1,7 +1,13 @@
 version: '3.9'
 services:
   runner:
-    image: gitlab/gitlab-runner:latest
+    image: myoung34/github-runner:latest
+    environment:
+      REPO_URL: https://github.com/MrKren/spordle
+      RUNNER_NAME: Spordle-Runner
+      ACCESS_TOKEN: $ACCESS_TOKEN
+      RUNNER_WORKDIR: /tmp/runner/work
+      RUNNER_SCOPE: 'repo'
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /cache
+      - '/var/run/docker.sock:/var/run/docker.sock'
+      - '/tmp/runner:/tmp/runner'
