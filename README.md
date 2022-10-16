@@ -4,9 +4,7 @@ A music guessing game based off [Heardle](https://www.heardle.app/) using Typesc
 
 To get started make sure you have installed node and yarn and then run `yarn` to install required packages.
 
-Live site: https://spordle.herokuapp.com/
-
-CI Pipelines: https://gitlab.com/MrKren/spordle/-/pipelines
+Live site: https://spordle.onrender.com
 
 ## Available Scripts
 
@@ -35,22 +33,16 @@ Automated style formatting.
 
 ### `yarn ci`
 
-Start the Gitlab Runner container for processing CI jobs.
+Start the Github Runner container for processing CI jobs.
 
 ## CI Setup
 
 Make sure you have docker installed (instructions found [here](https://docs.docker.com/get-docker/)).
 
-Run `docker compose up` to run the docker compose file and pull the relevant `gitlab-runner` image.
+Create a Github Personal Access Token with the following scopes listed [here](https://github.com/myoung34/docker-github-actions-runner/wiki/Usage#token-scope).
 
-Then use the following command to begin registration of the gitlab runner:
+Create a `.env` file and store the token in it under the following environment variable:
 
-`docker exec -it spordle-runner-1 gitlab-runner register --docker-privileged --docker-volumes "/var/run/docker.sock:/var/run/docker.sock"`
+`ACCESS_TOKEN = github_token_here`
 
-Enter the url and registration token found in the [CI/CD settings](https://gitlab.com/MrKren/spordle/-/settings/ci_cd#js-runners-settings).
-
-Following the rest of the steps:
-
-For executor: `docker`
-
-For image: `docker:stable`
+Run `docker compose up` to run the docker compose file and pull the relevant `github-runner` image.
