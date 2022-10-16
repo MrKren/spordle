@@ -3,12 +3,30 @@ run-name: Spordle Test Flow 🚀
 on: [pull_request]
 jobs:
   Lint:
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x]
     runs-on: self-hosted
     steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
       - run: yarn
       - run: yarn lint
   Unit-Tests:
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x]
     runs-on: self-hosted
     steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
       - run: yarn
       - run: yarn test
